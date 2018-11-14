@@ -45,7 +45,8 @@
     "prop-types": "^15.6.2",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
-    "sequelize": "^4.41.0"
+    "sequelize": "^4.41.0",
+    "uglifyjs-webpack-plugin": "^2.0.1"
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",

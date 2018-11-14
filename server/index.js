@@ -21,11 +21,22 @@ app.use('/courses/:courseId', expressStaticGzip(path.join(__dirname, '/../public
   orderPreference: ['br'],
 }));
 
+//this is the search
 app.get('/:courseId/reviews', (req, res) => {
   const { courseId } = req.params;
   getReviewData(courseId, res);
 });
+/*
+//make app.post
+app.post('/:courseId/reviews', (req, res) => {
+  const { courseId } = req.params;
+  
+})
 
+//make app.put
+
+//app.delete
+*/
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
 });

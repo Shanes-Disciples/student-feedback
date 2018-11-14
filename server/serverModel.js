@@ -63,4 +63,22 @@ const getReviewData = (courseId, res) => {
     });
 };
 
+//write function to post
+/*
+Post.update({
+  updatedAt: null,
+}, {
+  where: {
+    deletedAt: {
+      [Op.ne]: null
+    }
+  }
+});
+// UPDATE post SET updatedAt = null WHERE deletedAt NOT NULL;
+
+const updateReview = (courseId, res) => {
+  db.Reviews.update({where { courseId }, include})
+}
+*/
+
 module.exports = getReviewData;
