@@ -79,10 +79,15 @@ Post.update({
 >Courses table<
 createdAt: date
 updateAt: date
-
-const updateReview = (courseId, res) => {
-  db.Reviews.update({where { courseId }, include})
-}
 */
+
+const updateReview = (data, res) => {
+  db.Reviews.update({where: {
+    courseId: data.courseId
+
+    }
+  }
+}
+
 
 module.exports = getReviewData;

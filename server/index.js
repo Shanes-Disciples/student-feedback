@@ -43,13 +43,14 @@ app.post('/:courseId/reviews/', (req, res) => {
 
 });
 
+const updateReview = require('./serverModel.js');
+
 //make app.put to edit a review
 app.put('/:courseId/reviews/:reviewId', (req, res) => {
   let review = req.params.reviewId;
-  db.Reviews.update({
+  updateReview()
 
-  })
-});
+};
 
 // app.delete to delete a review
 // do I need to decrement the matching user review count?
@@ -62,8 +63,6 @@ app.delete('/:courseId/reviews/:reviewId', (req, res) => {
   });
 });
 
-//Stretch Goal
-//Routes for USERS *************************************************
 //app.get to get a specific user's reviews
 app.get('/users/:userId', (req, res) => {
 
