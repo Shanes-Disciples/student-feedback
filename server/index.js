@@ -26,17 +26,52 @@ app.get('/:courseId/reviews', (req, res) => {
   const { courseId } = req.params;
   getReviewData(courseId, res);
 });
-/*
-//make app.post
-app.post('/:courseId/reviews', (req, res) => {
-  const { courseId } = req.params;
-  
+
+
+//Routes for REVIEWS ***********************************************
+
+//app.get to get a specific review
+app.get('/:courseId/reviews/:reviewId', (req, res) => {
+
+});
+
+//make app.post to add a new review
+app.post('/:courseId/reviews/', (req, res) => {
+
+});
+
+//make app.put to edit a review
+app.put('/:courseId/reviews/:reviewId', (req, res) => {
+
+});
+
+//app.delete to delete a review
+app.delete('/:courseId/reviews/:reviewId', (req, res) => {
+
+});
+
+//Routes for USERS *************************************************
+
+//app.get to get a specific user
+app.get('/users/:userId', (req, res) => {
+
 })
 
-//make app.put
+//make app.post to add a new user
+app.post('/users/', (req, res) => {
 
-//app.delete
-*/
+});
+
+//make app.put to edit a user
+app.put('/users/:userId/', (req, res) => {
+
+});
+
+//app.delete to delete a user
+app.delete('/users/:userId', (req, res) => {
+
+});
+
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
 });

@@ -76,6 +76,10 @@ Post.update({
 });
 // UPDATE post SET updatedAt = null WHERE deletedAt NOT NULL;
 
+>Courses table<
+createdAt: date
+updateAt: date
+
 const updateReview = (courseId, res) => {
   db.Reviews.update({where { courseId }, include})
 }
