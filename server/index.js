@@ -30,8 +30,11 @@ app.get('/:courseId/reviews', (req, res) => {
 
 //Routes for REVIEWS ***********************************************
 
+const db = require('../database/sequelizeSetup.js');
+
 //app.get to get a specific review
 app.get('/:courseId/reviews/:reviewId', (req, res) => {
+  let reviewId = req.params.reviewId;
 
 });
 
@@ -42,35 +45,30 @@ app.post('/:courseId/reviews/', (req, res) => {
 
 //make app.put to edit a review
 app.put('/:courseId/reviews/:reviewId', (req, res) => {
+  let review = req.params.reviewId;
+  db.Reviews.update({
 
+  })
 });
 
-//app.delete to delete a review
+// app.delete to delete a review
+// do I need to decrement the matching user review count?
 app.delete('/:courseId/reviews/:reviewId', (req, res) => {
-
+  let review = req.params.reviewId;
+  db.Reviews.destroy({
+    where: {
+      reviewId: review
+    }
+  });
 });
 
+//Stretch Goal
 //Routes for USERS *************************************************
-
-//app.get to get a specific user
+//app.get to get a specific user's reviews
 app.get('/users/:userId', (req, res) => {
 
 })
 
-//make app.post to add a new user
-app.post('/users/', (req, res) => {
-
-});
-
-//make app.put to edit a user
-app.put('/users/:userId/', (req, res) => {
-
-});
-
-//app.delete to delete a user
-app.delete('/users/:userId', (req, res) => {
-
-});
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);

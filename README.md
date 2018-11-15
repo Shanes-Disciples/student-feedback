@@ -5,20 +5,18 @@ The "reviews" module for the Udemy course page.
 
 ## Additional Routes
 
-| Route/Endpoint                | Description           | Method  |
-| ----------------------------- |:---------------------:| -------:|
-| /:courseId/reviews/:reviewId  | get a specific review | GET     |
-| /:courseId/reviews/           | add a new review      | POST    |
-| /:courseId/reviews/:reviewId  | edit a review         | PATCH   |
-| /:courseId/reviews/:reviewId  | delete a review       | DELETE  |
+| Route/Endpoint                | Description                            | Method  |
+| ----------------------------- |---------------------------------------:| :------:|
+| /:courseId/reviews/:reviewId  | get all reviews for a specific course  | GET     |
+| /:courseId/addreview/         | add a new review                       | POST    |
+| /:courseId/reviews/:reviewId  | edit a review                          | PATCH   |
+| /:courseId/reviews/:reviewId  | delete a review                        | DELETE  |
 
 Stretch Goals:
+| Route/Endpoint                | Description               | Method  |
+| ----------------------------- |:-------------------------:| -------:|
+| /users/:userId/reviews        | get a user's reviews      | GET     |
 
-| ----------------------------- |:---------------------:| -------:|
-| /users/:userId                | get a specific user   | GET     |
-| /users/                       | add a new user        | POST    |
-| /users/:userId/               | edit a user           | PATCH   |
-| /users/:userId/               | delete a user         | DELETE  |
 
 ## Related Projects
 
