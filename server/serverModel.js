@@ -81,13 +81,21 @@ createdAt: date
 updateAt: date
 */
 
-const updateReview = (data, res) => {
-  db.Reviews.update({where: {
-    courseId: data.courseId
+const getSingleReview = (reviewId, res) => {
+  let result = db.Reviews.findOne({ where: { reviewId } 
+  }).then(() => res.send(result).end());
+};
 
-    }
-  }
-}
+const updateReview = (reviewId, courseId, review, res) => {
+  db.Reviews.update({ review }, {
+     where: { reviewId },
+    //  where: { courseId }
+    }).then(() => res.sendStatus(200).end());
+};
+//need ().end???
 
+// const addReview = ({course, review, res} {
+// 
+// })
 
-module.exports = getReviewData;
+module.exports = { getReviewData, updateReview, getSingleReview };

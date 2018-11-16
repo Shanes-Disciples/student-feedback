@@ -8,6 +8,7 @@ The "reviews" module for the Udemy course page.
 | Route/Endpoint                    | Description                            | Method  |
 | --------------------------------- |:---------------------------------------| :------:|
 | /:courseId/reviews/               | get all reviews for a specific course  | GET     |
+| /:courseId/reviews/:reviewId      | get a single review for a course       | GET     |
 | /:courseId/reviews/               | add a new review to a specific course  | POST    |
 | /:courseId/reviews/:reviewId      | edit a review for a specific course    | PUT     |
 | /:courseId/reviews/:reviewId      | delete a review for a specific course  | DELETE  |
