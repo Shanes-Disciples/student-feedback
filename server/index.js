@@ -63,12 +63,14 @@ app.put('/:courseId/reviews/:reviewId', (req, res) => {
 
 // app.delete to delete a review
 // do I need to decrement the matching user review count?
+// consider migrating this functionality to server models for unity 
 app.delete('/:courseId/reviews/:reviewId', (req, res) => {
   let review = req.body
   db.Reviews.destroy({
     where: { review },
   }).then(() => res.sendStatus(200))
 });
+
 
 //app.get to get a specific user's reviews **Stretch Goal**
 app.get('/users/:userId', (req, res) => {
