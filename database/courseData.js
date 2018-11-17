@@ -102,4 +102,5 @@ Animal Communication For beginners`;
 const arrOfCourses = courses.split('\n');
 const courseData = arrOfCourses.map(course => ({ name: course }));
 
-module.exports = courseData;
+// module.exports = courseData;
+module.exports = courses;
