@@ -18,14 +18,14 @@ CREATE TABLE users (
   reviewCount INTEGER (5),
   createdAt DATE,
   updatedAt DATE,
-  PRIMARY KEY (userId)
+  PRIMARY KEY (userId),
 
 )
 
  CREATE TABLE reviews (
   id INTEGER (9) NOT NULL AUTO_INCREMENT, 
   courseId VARCHAR (100),
-  userID VARCHAR (100),
+  userID INTEGER (9),
   rating INTEGER (2),
   review VARCHAR (600),
   date TIMESTAMP,

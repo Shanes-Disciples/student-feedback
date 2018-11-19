@@ -5,11 +5,11 @@ const faker = require('faker');
 // create two file paths, reviewPath and userPath
 // create two .csv files for the two tables
 const reviewFilePath = path.join(__dirname, 'reviews.csv');
-const usersFilePath = path.join(__dirname, 'users.csv');
+const userFilePath = path.join(__dirname, 'users.csv');
 
 const userData = () => {
   const userCount = 1000
-  const users = "";
+  let users = "";
   for (let i = 1; i <= userCount; i += 1) {
     const gender = Math.floor(Math.random() * 2);
     const firstName = faker.name.firstName(gender);
@@ -20,7 +20,7 @@ const userData = () => {
     const picGender = (gender === 0) ? 'men' : 'women';
     let userPic;
     Math.random() > 0.2 ? userPic = `https://randomuser.me/api/portraits/${picGender}/${picNum}.jpg` : userPic = firstName[0]+lastName[0];
-    users += (`${firstName} ${lastName},${userPic},${courseCount},${reviewCount}`);
+    users += (`${firstName},${lastName},${userPic},${courseCount},${reviewCount}`);
     users += '\r\n'
   }
   return users;
@@ -74,17 +74,17 @@ const seedReviews = () => {
 };
 
 
-//    users += (`${firstName} ${lastName},${userPic},${gender},${courseCount},${reviewCount}`);
+//users += (`${firstName} ${lastName},${userPic},${gender},${courseCount},${reviewCount}`);
 
 const seedUsers = () => {
   fs.writeFileSync(userFilePath, "");
-  fs.appendFileSync(userFilePath, 'Name,userPic,courseCount,reviewCount\r\n');
-  for (let i = 0; i < 1000; i+= 1) {
-    const userText = reviewDataGenerator();
+  fs.appendFileSync(userFilePath, 'firstName,lastName,userPic,courseCount,reviewCount\r\n');
+  for (let i = 0; i < 100; i+= 1) {
+    const userText = userData();
     fs.appendFileSync(userFilePath, userText);
   }
 };
 
 seedReviews();
 
-
+seedUsers();
