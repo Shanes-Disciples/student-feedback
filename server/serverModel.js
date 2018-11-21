@@ -63,4 +63,39 @@ const getReviewData = (courseId, res) => {
     });
 };
 
-module.exports = getReviewData;
+//write function to post
+/*
+Post.update({
+  updatedAt: null,
+}, {
+  where: {
+    deletedAt: {
+      [Op.ne]: null
+    }
+  }
+});
+// UPDATE post SET updatedAt = null WHERE deletedAt NOT NULL;
+
+>Courses table<
+createdAt: date
+updateAt: date
+*/
+
+const getSingleReview = (reviewId, res) => {
+  let result = db.Reviews.findOne({ where: { reviewId } 
+  }).then(() => res.send(result).end());
+};
+
+const updateReview = (reviewId, courseId, review, res) => {
+  db.Reviews.update({ review }, {
+     where: { reviewId },
+    //  where: { courseId }
+    }).then(() => res.sendStatus(200).end());
+};
+//need ().end???
+
+// const addReview = ({course, review, res} {
+// 
+// })
+
+module.exports = { getReviewData, updateReview, getSingleReview };
