@@ -2,13 +2,12 @@ const fs = require('fs');
 const path = require('path');
 const faker = require('faker');
 
-// create two file paths, reviewPath and userPath
-// create two .csv files for the two tables
 const reviewFilePath = path.join(__dirname, 'reviews.csv');
 const userFilePath = path.join(__dirname, 'users.csv');
+const courseFilePath = path.join(__dirname, 'courses.csv');
 
 const userData = () => {
-  const userCount = 1000
+  const userCount = 1000;
   let users = "";
   for (let i = 1; i <= userCount; i += 1) {
     const gender = Math.floor(Math.random() * 2);
@@ -20,7 +19,7 @@ const userData = () => {
     const picGender = (gender === 0) ? 'men' : 'women';
     let userPic;
     Math.random() > 0.2 ? userPic = `https://randomuser.me/api/portraits/${picGender}/${picNum}.jpg` : userPic = firstName[0]+lastName[0];
-    users += (`${firstName},${lastName},${userPic},${courseCount},${reviewCount}`);
+    users += (`${firstName} ${lastName},${userPic},${courseCount},${reviewCount}`);
     users += '\r\n'
   }
   return users;
@@ -30,8 +29,8 @@ const reviewDataGenerator = () => {
   const reviewCount = 1000;
   let reviewData = "";
   for (let i = 0; i < reviewCount; i += 1) {
-    const courseId = faker.fake('{{commerce.productAdjective}}') + " " + faker.fake('{{commerce.department}}') + " " + faker.fake('{{name.jobArea}}'); 
-    const userId = Math.floor(Math.random() * 1000) 
+    const userId = Math.floor(Math.random() * 1000); 
+    const courseId = Math.floor(Math.random() * 10000000);
     const review = faker.lorem.paragraph();
     const date = faker.date.past();
     const upvotes = Math.ceil(Math.random() * 100);
@@ -64,6 +63,16 @@ const reviewDataGenerator = () => {
   return reviewData;
 };
 
+const courseData = () => {
+  let courses = "";
+  for (let i = 0; i < 1000; i += 1) {
+    const courseName = faker.fake('{{commerce.productAdjective}}') + " " + faker.fake('{{commerce.department}}') + " " + faker.fake('{{name.jobArea}}'); 
+    courses += `${courseName}`;
+    courses += '\r\n';
+  }
+  return courses;
+};
+
 const seedReviews = () => {
   fs.writeFileSync(reviewFilePath, "");
   fs.appendFileSync(reviewFilePath, 'courseId,userId,rating,review,date,upvotes,downvotes,reported\r\n');
@@ -73,18 +82,24 @@ const seedReviews = () => {
   }
 };
 
-
-//users += (`${firstName} ${lastName},${userPic},${gender},${courseCount},${reviewCount}`);
-
 const seedUsers = () => {
   fs.writeFileSync(userFilePath, "");
-  fs.appendFileSync(userFilePath, 'firstName,lastName,userPic,courseCount,reviewCount\r\n');
+  fs.appendFileSync(userFilePath, 'username,userPic,courseCount,reviewCount\r\n');
   for (let i = 0; i < 100; i+= 1) {
     const userText = userData();
     fs.appendFileSync(userFilePath, userText);
   }
 };
 
-seedReviews();
+const seedCourses = () => {
+  fs.writeFileSync(courseFilePath, "");
+  fs.appendFileSync(courseFilePath, 'courseName');
+  for (let i = 0; i < 10000; i++) {
+    const courseName = courseData();
+    fs.appendFileSync(courseFilePath, courseName);
+  }
+};
 
 seedUsers();
+seedCourses();
+seedReviews();
