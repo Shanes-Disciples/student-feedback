@@ -1,6 +1,6 @@
--- DROP DATABASE IF NOT EXISTS udemy;
+DROP DATABASE IF NOT EXISTS udemy;
 
--- CREATE DATABASE IF NOT EXISTS udemy;
+CREATE DATABASE IF NOT EXISTS udemy;
 
 
 CREATE TABLE IF NOT EXISTS users (
@@ -34,9 +34,9 @@ CREATE TABLE IF NOT EXISTS reviews (
   updated_at TIMESTAMP not null DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE INDEX IF NOT EXISTS courses (course_id);
-CREATE INDEX IF NOT EXISTS users (user_id)
-CREATE INDEX IF NOT EXISTS reviews_index ON reviews (course_id, user_id);
+CREATE INDEX IF NOT EXISTS course_index ON courses (course_id);
+CREATE INDEX IF NOT EXISTS user_index ON users (user_id)
+CREATE INDEX IF NOT EXISTS review_index ON reviews (course_id, user_id);
 
 -- \COPY users (username, userPic, course_count, review_count) FROM 'C:\Users\Smashvin\Documents\Class Notes\New Git\student-feedback\database\users.csv' WITH (FORMAT CSV)
 -- \COPY courses (courseName) FROM 'C:\Users\Smashvin\Documents\Class Notes\New Git\student-feedback\database\courses.csv' WITH (FORMAT CSV)
