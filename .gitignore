@@ -3,3 +3,6 @@
 *.DS_Store
 *.pem
 *.config.js
+/database/courses.csv
+/database/reviews.csv
+/database/users.csv
