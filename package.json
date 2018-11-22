@@ -9,7 +9,8 @@
     "start": "nodemon server/index.js",
     "react": "webpack -d --watch",
     "seed": "node database/NEWseed.js",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "connect": "psql postgres postgres"
   },
   "babel": {
     "presets": [

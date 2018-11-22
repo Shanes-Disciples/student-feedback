@@ -25,12 +25,20 @@ const userData = () => {
   return users;
 }
 
+// let count = 1;
+// let reviewCounter = () => {
+//   count += 1;
+// };
+// reviewCounter();
+
+
 const reviewDataGenerator = () => {
   const reviewCount = 1000;
   let reviewData = "";
+
   for (let i = 0; i < reviewCount; i += 1) {
-    const userId = Math.floor(Math.random() * 1000); 
-    const courseId = Math.floor(Math.random() * 10000000);
+    const courseId = Math.floor(Math.random() * 100000 + 1);
+    const userId = Math.floor(Math.random() * 250000 + 1); 
     const review = faker.lorem.paragraph();
     const date = faker.date.past();
     const upvotes = Math.ceil(Math.random() * 100);
@@ -64,8 +72,9 @@ const reviewDataGenerator = () => {
 };
 
 const courseData = () => {
+  const courseCount = 1000;
   let courses = "";
-  for (let i = 0; i < 1000; i += 1) {
+  for (let i = 0; i < courseCount; i += 1) {
     const courseName = faker.fake('{{commerce.productAdjective}}') + " " + faker.fake('{{commerce.department}}') + " " + faker.fake('{{name.jobArea}}'); 
     courses += `${courseName}`;
     courses += '\r\n';
@@ -75,8 +84,8 @@ const courseData = () => {
 
 const seedReviews = () => {
   fs.writeFileSync(reviewFilePath, "");
-  fs.appendFileSync(reviewFilePath, 'courseId,userId,rating,review,date,upvotes,downvotes,reported\r\n');
-  for (let i = 0; i < 10000; i+= 1) {
+  // fs.appendFileSync(reviewFilePath, 'course_id,user_id,rating,review,date,upvotes,downvotes,reported\r\n');
+  for (let i = 0; i < 10000; i += 1) {
     const reviewText = reviewDataGenerator();
     fs.appendFileSync(reviewFilePath, reviewText);
   }
@@ -84,8 +93,8 @@ const seedReviews = () => {
 
 const seedUsers = () => {
   fs.writeFileSync(userFilePath, "");
-  fs.appendFileSync(userFilePath, 'username,userPic,courseCount,reviewCount\r\n');
-  for (let i = 0; i < 100; i+= 1) {
+  // fs.appendFileSync(userFilePath, 'username,userPic,course_count,review_count\r\n');
+  for (let i = 0; i < 250; i += 1) {
     const userText = userData();
     fs.appendFileSync(userFilePath, userText);
   }
@@ -93,8 +102,8 @@ const seedUsers = () => {
 
 const seedCourses = () => {
   fs.writeFileSync(courseFilePath, "");
-  fs.appendFileSync(courseFilePath, 'courseName');
-  for (let i = 0; i < 10000; i++) {
+  // fs.appendFileSync(courseFilePath, 'courseName');
+  for (let i = 0; i < 100; i += 1) {
     const courseName = courseData();
     fs.appendFileSync(courseFilePath, courseName);
   }
