@@ -34,13 +34,15 @@ CREATE TABLE IF NOT EXISTS reviews (
   updated_at TIMESTAMP not null DEFAULT CURRENT_TIMESTAMP
 );
 
+\COPY users (username, userPic, course_count, review_count) FROM 'C:\Users\Smashvin\Documents\Class Notes\New Git\student-feedback\database\users.csv' WITH (FORMAT CSV)
+\COPY courses (courseName) FROM 'C:\Users\Smashvin\Documents\Class Notes\New Git\student-feedback\database\courses.csv' WITH (FORMAT CSV)
+\COPY reviews (course_id, user_id, rating, review, date, upvotes, downvotes, reported) FROM 'C:\Users\Smashvin\Documents\Class Notes\New Git\student-feedback\database\reviews.csv' WITH (FORMAT CSV)
+
+
 CREATE INDEX IF NOT EXISTS course_index ON courses (course_id);
 CREATE INDEX IF NOT EXISTS user_index ON users (user_id)
 CREATE INDEX IF NOT EXISTS review_index ON reviews (course_id, user_id);
 
--- \COPY users (username, userPic, course_count, review_count) FROM 'C:\Users\Smashvin\Documents\Class Notes\New Git\student-feedback\database\users.csv' WITH (FORMAT CSV)
--- \COPY courses (courseName) FROM 'C:\Users\Smashvin\Documents\Class Notes\New Git\student-feedback\database\courses.csv' WITH (FORMAT CSV)
--- \COPY reviews (course_id, user_id, rating, review, date, upvotes, downvotes, reported) FROM 'C:\Users\Smashvin\Documents\Class Notes\New Git\student-feedback\database\reviews.csv' WITH (FORMAT CSV)
 
 -- ALTER SYSTEM SET random_page_cost TO '1.0';
 -- ALTER SYSTEM SET shared_buffers TO '1GB';

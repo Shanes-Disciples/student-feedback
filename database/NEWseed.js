@@ -7,10 +7,10 @@ const userFilePath = path.join(__dirname, 'users2.csv');
 const courseFilePath = path.join(__dirname, 'courses2.csv');
 
 // Simple counter to enable integer searches in Cassandra
-let count = 1;
-const Counter = () => {
-  count += 1;
-};
+// let count = 1;
+// const Counter = () => {
+//   count += 1;
+// };
 
 
 const userData = () => {
@@ -28,9 +28,9 @@ const userData = () => {
     const picGender = (gender === 0) ? 'men' : 'women';
     let userPic;
     Math.random() > 0.2 ? userPic = `https://randomuser.me/api/portraits/${picGender}/${picNum}.jpg` : userPic = firstName[0]+lastName[0];
-    users += (`${userId},${firstName} ${lastName},${userPic},${courseCount},${reviewCount}`);
-    // users += (`${firstName} ${lastName},${userPic},${courseCount},${reviewCount}`);
-    users += '\n'
+    // users += (`${userId},${firstName} ${lastName},${userPic},${courseCount},${reviewCount}`);
+    users += (`${firstName} ${lastName},${userPic},${courseCount},${reviewCount}`);
+    users += '\r\n'
   }
   return users;
 }
@@ -40,9 +40,9 @@ const reviewDataGenerator = () => {
   const reviewCount = 1000;
   let reviewData = "";
   for (let i = 0; i < reviewCount; i += 1) {
-    //Cassandra lines
-    const reviewId = count;
-    Counter();
+    // Cassandra lines
+    // const reviewId = count;
+    // Counter();
     const courseId = Math.floor(Math.random() * 100000 + 1);
     const userId = Math.floor(Math.random() * 250000 + 1); 
     const review = faker.lorem.paragraph();
@@ -71,9 +71,9 @@ const reviewDataGenerator = () => {
     } else {
       rating = 1;
     }
-    reviewData += `${reviewId},${courseId},${userId},${rating},${review},${date},${upvotes},${downvotes},${reported}`
-    // reviewData += `${courseId},${userId},${rating},${review},${date},${upvotes},${downvotes},${reported}`
-    reviewData += '\n';
+    // reviewData += `${reviewId},${courseId},${userId},${rating},${review},${date},${upvotes},${downvotes},${reported}`
+    reviewData += `${courseId},${userId},${rating},${review},${date},${upvotes},${downvotes},${reported}`
+    reviewData += '\r\n';
   }
   return reviewData;
 };
@@ -82,11 +82,12 @@ const courseData = () => {
   const courseCount = 1000;
   let courses = "";
   for (let i = 0; i < courseCount; i += 1) {
-    const courseId = count;
-    Counter();
+    // const courseId = count;
+    // Counter();
     const courseName = faker.fake('{{commerce.productAdjective}}') + " " + faker.fake('{{commerce.department}}') + " " + faker.fake('{{name.jobArea}}'); 
-    courses += `${courseId},${courseName}`;
-    courses += '\n';
+    courses += `${courseName}`;
+    // courses += `${courseId},${courseName}`;
+    courses += '\r\n';
   }
   return courses;
 };
@@ -118,6 +119,6 @@ const seedCourses = () => {
   }
 };
 
-// seedUsers();
-// seedCourses();
+seedUsers();
+seedCourses();
 seedReviews();
