@@ -1,11 +1,10 @@
+require('newrelic');
 const express = require('express');
 const expressStaticGzip = require('express-static-gzip');
 const bodyParser = require('body-parser');
 const path = require('path');
 
-const getReviewData = require('./serverModel.js');
-const updateReview = require('./serverModel.js');
-const getSingleReview = require('./serverModel.js');
+const { getReviewData, updateReview, getSingleReview } = require('./serverModel.js');
 
 const app = express();
 const PORT = 3002;
@@ -23,7 +22,6 @@ app.use('/courses/:courseId', expressStaticGzip(path.join(__dirname, '/../public
   orderPreference: ['br'],
 }));
 
-//this is the search
 app.get('/:courseId/reviews', (req, res) => {
   const { courseId } = req.params;
   getReviewData(courseId, res);
@@ -32,17 +30,12 @@ app.get('/:courseId/reviews', (req, res) => {
 
 //Routes for REVIEWS ***********************************************
 
-const db = require('../database/sequelizeSetup.js');
-
 //app.get to get a specific review
 app.get('/:courseId/reviews/:reviewId', (req, res) => {
-  let reviewId = req.body;
-  if (reviewId === undefined) {
-    res.sendStatus(400).end();
-  } else {
+  let reviewId = req.params.reviewId;
   getSingleReview(reviewId, res)
-  };
 });
+
 
 //make app.post to add a new review
 app.post('/:courseId/reviews/', (req, res) => {
@@ -62,7 +55,6 @@ app.put('/:courseId/reviews/:reviewId', (req, res) => {
 });
 
 // app.delete to delete a review
-// do I need to decrement the matching user review count?
 // consider migrating this functionality to server models for unity 
 app.delete('/:courseId/reviews/:reviewId', (req, res) => {
   let review = req.body
@@ -71,10 +63,14 @@ app.delete('/:courseId/reviews/:reviewId', (req, res) => {
   }).then(() => res.sendStatus(200))
 });
 
+// const db = require('../database/sequelizeSetup.js');
 
-//app.get to get a specific user's reviews **Stretch Goal**
-app.get('/users/:userId', (req, res) => {
-  res.sendStatus(405);
+app.get('/:courseId/user/:id', (req, res) => {
+  console.log("Success!")
+  // db.Users.findOne({where: { user_id: 25 }})
+  .then((data => {
+    res.send(data)
+  }));
 });
 
 

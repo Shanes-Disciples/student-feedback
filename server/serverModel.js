@@ -1,4 +1,6 @@
-const db = require('../database/sequelizeSetup.js');
+const db = require('../database/pgindex.js').client;
+// const db = require('../database/sequelizeSetup.js');
+
 
 const flattenReviewData = (data) => {
   const reviewDataWithNestedUserObj = data.map(row => (row.dataValues));
@@ -7,7 +9,6 @@ const flattenReviewData = (data) => {
     row.rating = Number(row.rating);
     return row;
   });
-
   return reviewData;
 };
 
@@ -42,48 +43,32 @@ const findFeaturedReview = (reviewData) => {
     return featured;
   }, { upvotes: 60, downvotes: 0 });
 
-  if (featuredReview.userId === undefined) { featuredReview = null; }
+  if (featuredReview.user_id === undefined) { featuredReview = null; }
 
   return featuredReview;
 };
 
 const removeFeaturedReviewFromList = (featuredReview, reviewData) => (
-  reviewData.filter(review => (review.userId !== featuredReview.userId))
+  reviewData.filter(review => (review.user_id !== featuredReview.user_id))
 );
 
-
 const getReviewData = (courseId, res) => {
-  db.Reviews.findAll({ where: { courseId }, include: [db.Users] })
+  db.query(`SELECT * FROM reviews INNER JOIN users ON users.user_id = reviews.user_id WHERE course_id = ${courseId};`)
     .then((data) => {
-      const reviewData = flattenReviewData(data);
-      const courseStats = calcCourseStats(reviewData);
-      const featuredReview = findFeaturedReview(reviewData);
-      const reviews = removeFeaturedReviewFromList(featuredReview, reviewData);
+      // const reviewData = flattenReviewData(data);
+      const courseStats = calcCourseStats(data.rows);
+      const featuredReview = findFeaturedReview(data.rows);
+      const reviews = removeFeaturedReviewFromList(featuredReview, data.rows);
       res.send({ courseStats, featuredReview, reviews });
     });
 };
 
-//write function to post
-/*
-Post.update({
-  updatedAt: null,
-}, {
-  where: {
-    deletedAt: {
-      [Op.ne]: null
-    }
-  }
-});
-// UPDATE post SET updatedAt = null WHERE deletedAt NOT NULL;
-
->Courses table<
-createdAt: date
-updateAt: date
-*/
 
 const getSingleReview = (reviewId, res) => {
-  let result = db.Reviews.findOne({ where: { reviewId } 
-  }).then(() => res.send(result).end());
+  db.query(`SELECT * FROM reviews WHERE review_id = ${reviewId};`)
+  .then((data) => {
+  res.send(data)
+  });
 };
 
 const updateReview = (reviewId, courseId, review, res) => {
@@ -92,10 +77,11 @@ const updateReview = (reviewId, courseId, review, res) => {
     //  where: { courseId }
     }).then(() => res.sendStatus(200).end());
 };
-//need ().end???
 
-// const addReview = ({course, review, res} {
-// 
-// })
 
-module.exports = { getReviewData, updateReview, getSingleReview };
+module.exports = {
+  getReviewData,
+  getSingleReview,
+  updateReview
+} 
+

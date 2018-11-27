@@ -1,0 +1,26 @@
+config:
+  target: 'http://127.0.0.1:3002'
+  phases:
+    - duration: 60
+      arrivalRate: 25
+      rampTo: 100
+      name: "warming up"
+    - duration: 30
+      arrivalRate: 500
+      name: "testing max load"
+  processor: './hellofunctions.js'
+  defaults:
+    headers:
+      x-my-service-auth: '987401838271002188298567'
+scenarios:
+  - name: "get one review"
+    flow:
+      - function: 'generateRandomData'
+      - get:
+          url: "/{{ id }}/reviews/{{ id }}"
+  - name: "get all course reviews"
+    flow:
+      - function: 'generateRandomData'
+      - get:
+          url: "/{{ id }}/reviews/"
+
