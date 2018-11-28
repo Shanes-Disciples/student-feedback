@@ -24,8 +24,8 @@ class FeaturedReview extends React.Component {
                 <span className={styles.featuredReviewUsername}>
                   {this.props.featuredReview.username}
                 </span>
-                <span>( {this.props.featuredReview.courseCount} courses,</span>
-                <span> {this.props.featuredReview.reviewCount} reviews )</span>
+                <span>( {this.props.featuredReview.course_count} courses,</span>
+                <span> {this.props.featuredReview.review_count} reviews )</span>
                 <ReviewStars starStyle={{ fontSize: '13px', margin: '2px' }} rating={this.props.featuredReview.rating} />
                 <div>{moment(this.props.featuredReview.createdat).fromNow()}</div>
               </div>

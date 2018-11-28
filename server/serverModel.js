@@ -1,5 +1,4 @@
 const db = require('../database/pgindex.js').client;
-// const db = require('../database/sequelizeSetup.js');
 
 
 // const flattenReviewData = (data) => {
@@ -55,7 +54,6 @@ const removeFeaturedReviewFromList = (featuredReview, reviewData) => (
 const getReviewData = (courseId, res) => {
   db.query(`SELECT * FROM reviews INNER JOIN users ON users.user_id = reviews.user_id WHERE course_id = ${courseId};`)
     .then((data) => {
-      // const reviewData = flattenReviewData(data);
       const courseStats = calcCourseStats(data.rows);
       const featuredReview = findFeaturedReview(data.rows);
       const reviews = removeFeaturedReviewFromList(featuredReview, data.rows);
@@ -71,17 +69,42 @@ const getSingleReview = (reviewId, res) => {
   });
 };
 
-const updateReview = (reviewId, courseId, review, res) => {
-  db.Reviews.update({ review }, {
-     where: { reviewId },
-    //  where: { courseId }
-    }).then(() => res.sendStatus(200).end());
+
+const createReview = (courseId, review, res) => {
+  let date = new Date();
+  db.query(`INSERT INTO reviews (${courseId}, ${review.user_id}, ${review.rating}, '${review.review}', '${date}', 0, 0)
+          VALUES (course_id, user_id, rating, review, date, upvotes, downvotes)  
+          ;`)
+  .then(console.log("Successfully created review"))
+  .then(res.sendStatus(201))
+  .catch((err) => { console.log(err) })
 };
+
+
+const removeReview = (reviewId, res) => {
+  db.query(`DELETE FROM reviews WHERE review_id = ${reviewId};`)
+  .then(console.log("Review successfully deleted"))
+  .then(res.sendStatus(200))
+  .catch(console.log("Error deleting review"))
+};
+
+const getUserReviews = (userId, res) => {
+  db.query(`SELECT * FROM reviews WHERE user_id = ${userId};`)
+  .then(res.sendStatus(200))
+  .catch((err) => { console.log(err) })
+}
+
+const updateReview = (review, id, res) => {
+  res.sendStatus(405)
+}
 
 
 module.exports = {
   getReviewData,
   getSingleReview,
+  createReview,
+  removeReview,
+  getUserReviews,
   updateReview
 } 
 

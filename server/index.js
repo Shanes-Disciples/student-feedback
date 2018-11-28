@@ -4,7 +4,7 @@ const expressStaticGzip = require('express-static-gzip');
 const bodyParser = require('body-parser');
 const path = require('path');
 
-const { getReviewData, updateReview, getSingleReview } = require('./serverModel.js');
+const { getReviewData, updateReview, getSingleReview, removeReview, createReview , getUserReviews} = require('./serverModel.js');
 
 const app = express();
 const PORT = 3002;
@@ -37,34 +37,32 @@ app.get('/:courseId/reviews/:reviewId', (req, res) => {
 });
 
 
-//make app.post to add a new review
-app.post('/:courseId/reviews/', (req, res) => {
-  res.sendStatus(405);
+//make app.put to edit an existing review
+app.put('/:courseId/reviews/:reviewId', (req, res) => {
+  let review = req.body;
+  let id = req.params.reviewId
+  updateReview(review, id, res)
 });
 
 
-//make app.put to edit a review
-app.put('/:courseId/reviews/:reviewId', (req, res) => {
-  let reviewId = req.params.reviewId;
+//make app.post to add a review
+app.post('/:courseId/reviews/', (req, res) => {
+  let courseId = req.params;
   const review = req.body;
-  updateReview(reviewId, review, res)
+  createReview(courseId, review, res)
 });
 
 // app.delete to delete a review
-// consider migrating this functionality to server models for unity 
 app.delete('/:courseId/reviews/:reviewId', (req, res) => {
   let reviewId = req.params.reviewId;
-
+  console.log(reviewId)
+  removeReview(reviewId, res)
 });
 
-// const db = require('../database/sequelizeSetup.js');
 
-app.get('/:courseId/user/:id', (req, res) => {
-  console.log("Success!")
-  // db.Users.findOne({where: { user_id: 25 }})
-  .then((data => {
-    res.send(data)
-  }));
+app.get('/courses/:userId', (req, res) => {
+  let userId = req.params;
+  getUserReviews(userId, res);
 });
 
 
