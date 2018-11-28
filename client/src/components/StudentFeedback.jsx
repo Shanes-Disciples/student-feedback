@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import GraphBarAndStars from './GraphBarAndStars.jsx';
 import SummaryStars from './SummaryStars.jsx';
 import styles from '../styles/StudentFeedback.css';
@@ -15,6 +14,7 @@ class StudentFeedback extends React.Component {
     }
     return graphRows;
   }
+
 
   render() {
     return (
@@ -38,18 +38,5 @@ class StudentFeedback extends React.Component {
     );
   }
 }
-
-StudentFeedback.propTypes = {
-  stats: PropTypes.shape({
-    avg: PropTypes.number.isRequired,
-    1: PropTypes.number.isRequired,
-    2: PropTypes.number.isRequired,
-    3: PropTypes.number.isRequired,
-    4: PropTypes.number.isRequired,
-    5: PropTypes.number.isRequired,
-  }),
-  selectedStar: PropTypes.number,
-  ratingFilter: PropTypes.func.isRequired,
-};
 
 export default StudentFeedback;

@@ -45,22 +45,16 @@ app.post('/:courseId/reviews/', (req, res) => {
 
 //make app.put to edit a review
 app.put('/:courseId/reviews/:reviewId', (req, res) => {
-  const reviewId = req.body.reviewId;
-  const review = req.body.review;
-  if (reviewId || review === undefined) {
-    res.sendStatus(400);
-  } else {
+  let reviewId = req.params.reviewId;
+  const review = req.body;
   updateReview(reviewId, review, res)
-  }
 });
 
 // app.delete to delete a review
 // consider migrating this functionality to server models for unity 
 app.delete('/:courseId/reviews/:reviewId', (req, res) => {
-  let review = req.body
-  db.Reviews.destroy({
-    where: { review },
-  }).then(() => res.sendStatus(200))
+  let reviewId = req.params.reviewId;
+
 });
 
 // const db = require('../database/sequelizeSetup.js');

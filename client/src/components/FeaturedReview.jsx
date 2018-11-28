@@ -1,16 +1,15 @@
 import React from 'react';
 import moment from 'moment';
-import PropTypes from 'prop-types';
 import ReviewStars from './ReviewStars.jsx';
 import styles from '../styles/FeaturedReview.css';
 
 class FeaturedReview extends React.Component {
   setUserPic() {
-    const { userPic } = this.props.featuredReview.user;
-    if (userPic.includes('https')) {
-      return <img className={styles.reviewUserPic} src={userPic}></img>;
+    const userpic = this.props.featuredReview.userpic;
+    if (userpic.includes('https')) {
+      return <img className={styles.reviewUserPic} src={userpic}></img>;
     }
-    return <div className={styles.reviewUserInitials}>{userPic}</div>;
+    return <div className={styles.reviewUserInitials}>{userpic}</div>;
   }
 
   render() {
@@ -23,12 +22,12 @@ class FeaturedReview extends React.Component {
               <div className={styles.featureReviewUserPic}>{this.setUserPic()}</div>
               <div className={styles.featuredReviewInfo}>
                 <span className={styles.featuredReviewUsername}>
-                  {this.props.featuredReview.user.username}
+                  {this.props.featuredReview.username}
                 </span>
-                <span>( {this.props.featuredReview.user.courseCount} courses,</span>
-                <span> {this.props.featuredReview.user.reviewCount} reviews )</span>
+                <span>( {this.props.featuredReview.courseCount} courses,</span>
+                <span> {this.props.featuredReview.reviewCount} reviews )</span>
                 <ReviewStars starStyle={{ fontSize: '13px', margin: '2px' }} rating={this.props.featuredReview.rating} />
-                <div>{moment(this.props.featuredReview.date).fromNow()}</div>
+                <div>{moment(this.props.featuredReview.createdat).fromNow()}</div>
               </div>
             </div>
             <div>{this.props.featuredReview.review}</div>
@@ -46,18 +45,5 @@ class FeaturedReview extends React.Component {
   }
 }
 
-FeaturedReview.propTypes = {
-  featuredReview: PropTypes.shape({
-    user: PropTypes.shape({
-      userPic: PropTypes.string.isRequired,
-      username: PropTypes.string.isRequired,
-      courseCount: PropTypes.number.isRequired,
-      reviewCount: PropTypes.number.isRequired,
-    }),
-    date: PropTypes.string.isRequired,
-    review: PropTypes.string.isRequired,
-    rating: PropTypes.number.isRequired,
-  }),
-};
 
 export default FeaturedReview;

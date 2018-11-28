@@ -31,7 +31,7 @@ class App extends React.Component {
 
   getReviews() {
     fetch(`${window.location.pathname.slice('/courses'.length)}reviews`)
-      .then(rawData => (rawData.text()))
+    .then(rawData => (rawData.text()))
       .then((data) => {
         this.setState(JSON.parse(data));
         this.setState({
@@ -79,7 +79,7 @@ class App extends React.Component {
     const reviewsFilteredBySearchAndRating = [];
     this.state.reviewsFilteredBySearch.forEach((searchReview) => {
       this.state.reviewsFilteredByRating.forEach((ratingReview) => {
-        if (searchReview.user.userId === ratingReview.user.userId) {
+        if (searchReview.user_id === ratingReview.user_id) {
           reviewsFilteredBySearchAndRating.push(searchReview);
           return;
         }

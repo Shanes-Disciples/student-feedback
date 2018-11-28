@@ -2,18 +2,18 @@ const db = require('../database/pgindex.js').client;
 // const db = require('../database/sequelizeSetup.js');
 
 
-const flattenReviewData = (data) => {
-  const reviewDataWithNestedUserObj = data.map(row => (row.dataValues));
-  const reviewData = reviewDataWithNestedUserObj.map((row) => {
-    row.user = row.user.dataValues;
-    row.rating = Number(row.rating);
-    return row;
-  });
-  return reviewData;
-};
+// const flattenReviewData = (data) => {
+//   const reviewDataWithNestedUserObj = data.map(row => (row.dataValues));
+//   const reviewData = reviewDataWithNestedUserObj.map((row) => {
+//     row.user = row.user.dataValues;
+//     row.rating = Number(row.rating);
+//     return row;
+//   });
+//   return reviewData;
+// };
 
 const calcCourseStats = (reviewData) => {
-  const sumRating = reviewData.reduce((sum, review) => (sum + review.rating), 0);
+  const sumRating = reviewData.reduce((sum, review) => (sum + Number(review.rating)), 0);
   const totalRatings = reviewData.length;
   const avgRating = Number((sumRating / totalRatings).toFixed(2));
   const summaryStats = reviewData.reduce((obj, review) => {
@@ -44,7 +44,7 @@ const findFeaturedReview = (reviewData) => {
   }, { upvotes: 60, downvotes: 0 });
 
   if (featuredReview.user_id === undefined) { featuredReview = null; }
-
+  featuredReview.rating = Number(featuredReview.rating);
   return featuredReview;
 };
 

@@ -1,6 +1,4 @@
-
 import React from 'react';
-import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 import styles from '../styles/Stars.css';
@@ -9,7 +7,7 @@ class SummaryStars extends React.Component {
   createSummaryStars() {
     const stars = [];
     const starCount = 5;
-    let totalFill = Math.ceil(this.props.rating * 100);
+    let totalFill = Math.ceil(Number(this.props.rating * 100));
     let fill = 0;
     let partialFill = 0;
     let star = <div></div>;
@@ -68,13 +66,5 @@ class SummaryStars extends React.Component {
     );
   }
 }
-
-SummaryStars.propTypes = {
-  rating: PropTypes.number.isRequired,
-  starStyle: PropTypes.shape({
-    fontSize: PropTypes.string.isRequired,
-    margin: PropTypes.string.isRequired,
-  }),
-};
 
 export default SummaryStars;
