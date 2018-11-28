@@ -1,12 +1,13 @@
 config:
   target: 'http://127.0.0.1:3002'
   phases:
-    - duration: 60
+    - duration: 45
       arrivalRate: 25
       rampTo: 100
       name: "warming up"
-    - duration: 30
-      arrivalRate: 500
+    - duration: 120
+      arrivalRate: 100
+      rampTo: 1000
       name: "testing max load"
   processor: './hellofunctions.js'
   defaults:
@@ -18,9 +19,16 @@ scenarios:
       - function: 'generateRandomData'
       - get:
           url: "/{{ id }}/reviews/{{ id }}"
-  - name: "get all course reviews"
-    flow:
-      - function: 'generateRandomData'
-      - get:
-          url: "/{{ id }}/reviews/"
+  # - name: "get all course reviews"
+  #   flow:
+  #     - function: 'generateRandomData'
+  #     - get:
+  #         url: "/{{ id }}/reviews/"
+  # - name: "get static page"
+  #   flow:
+  #     - function: 'generateRandomData'
+  #     - get:
+  #         url: "/courses/{{ id }}/"
+  #         gzip: true
+
 

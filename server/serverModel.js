@@ -42,8 +42,8 @@ const findFeaturedReview = (reviewData) => {
     return featured;
   }, { upvotes: 60, downvotes: 0 });
 
-  if (featuredReview.user_id === undefined) { featuredReview = null; }
-  featuredReview.rating = Number(featuredReview.rating);
+  // if (featuredReview.user_id === undefined) { featuredReview = null; }
+  featuredReview.rating = Number(featuredReview.rating) || 5;
   return featuredReview;
 };
 
@@ -58,7 +58,8 @@ const getReviewData = (courseId, res) => {
       const featuredReview = findFeaturedReview(data.rows);
       const reviews = removeFeaturedReviewFromList(featuredReview, data.rows);
       res.send({ courseStats, featuredReview, reviews });
-    });
+    })
+    .catch((err) => { console.log(err) });
 };
 
 
@@ -66,15 +67,16 @@ const getSingleReview = (reviewId, res) => {
   db.query(`SELECT * FROM reviews WHERE review_id = ${reviewId};`)
   .then((data) => {
   res.send(data)
-  });
+  })
+  .catch((err) => { console.log(err) });
 };
 
 
 const createReview = (courseId, review, res) => {
   let date = new Date();
-  db.query(`INSERT INTO reviews (${courseId}, ${review.user_id}, ${review.rating}, '${review.review}', '${date}', 0, 0)
-          VALUES (course_id, user_id, rating, review, date, upvotes, downvotes)  
-          ;`)
+  db.query(`INSERT INTO reviews (course_id, user_id, rating, review, date, upvotes, downvotes, reported)
+            VALUES (${courseId}, ${review.user_id}, ${review.rating}, '${review.review}', '${date}', 0, 0, 0);`
+          )
   .then(console.log("Successfully created review"))
   .then(res.sendStatus(201))
   .catch((err) => { console.log(err) })
@@ -90,7 +92,9 @@ const removeReview = (reviewId, res) => {
 
 const getUserReviews = (userId, res) => {
   db.query(`SELECT * FROM reviews WHERE user_id = ${userId};`)
-  .then(res.sendStatus(200))
+  .then((data) => {
+    res.send(data)
+  })
   .catch((err) => { console.log(err) })
 }
 

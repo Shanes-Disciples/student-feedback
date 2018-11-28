@@ -47,7 +47,7 @@ app.put('/:courseId/reviews/:reviewId', (req, res) => {
 
 //make app.post to add a review
 app.post('/:courseId/reviews/', (req, res) => {
-  let courseId = req.params;
+  let courseId = req.params.courseId;
   const review = req.body;
   createReview(courseId, review, res)
 });
@@ -60,8 +60,9 @@ app.delete('/:courseId/reviews/:reviewId', (req, res) => {
 });
 
 
-app.get('/courses/:userId', (req, res) => {
-  let userId = req.params;
+app.get('/users/:userId', (req, res) => {
+  let userId = req.params.userId;
+  console.log(userId)
   getUserReviews(userId, res);
 });
 
