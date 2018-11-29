@@ -1,16 +1,6 @@
 const db = require('../database/pgindex.js').client;
 
 
-// const flattenReviewData = (data) => {
-//   const reviewDataWithNestedUserObj = data.map(row => (row.dataValues));
-//   const reviewData = reviewDataWithNestedUserObj.map((row) => {
-//     row.user = row.user.dataValues;
-//     row.rating = Number(row.rating);
-//     return row;
-//   });
-//   return reviewData;
-// };
-
 const calcCourseStats = (reviewData) => {
   const sumRating = reviewData.reduce((sum, review) => (sum + Number(review.rating)), 0);
   const totalRatings = reviewData.length;
@@ -42,7 +32,6 @@ const findFeaturedReview = (reviewData) => {
     return featured;
   }, { upvotes: 60, downvotes: 0 });
 
-  // if (featuredReview.user_id === undefined) { featuredReview = null; }
   featuredReview.rating = Number(featuredReview.rating) || 5;
   return featuredReview;
 };
@@ -71,23 +60,21 @@ const getSingleReview = (reviewId, res) => {
   .catch((err) => { console.log(err) });
 };
 
-
 const createReview = (courseId, review, res) => {
   let date = new Date();
   db.query(`INSERT INTO reviews (course_id, user_id, rating, review, date, upvotes, downvotes, reported)
-            VALUES (${courseId}, ${review.user_id}, ${review.rating}, '${review.review}', '${date}', 0, 0, 0);`
-          )
+            VALUES (${courseId}, ${review.user_id}, ${review.rating}, '${review.review}', '${date}', 0, 0, 0);
+          `)
   .then(console.log("Successfully created review"))
   .then(res.sendStatus(201))
-  .catch((err) => { console.log(err) })
+  .catch((err) => { console.log(err) });
 };
-
 
 const removeReview = (reviewId, res) => {
   db.query(`DELETE FROM reviews WHERE review_id = ${reviewId};`)
   .then(console.log("Review successfully deleted"))
   .then(res.sendStatus(200))
-  .catch(console.log("Error deleting review"))
+  .catch((err) => { console.log(err) });
 };
 
 const getUserReviews = (userId, res) => {
@@ -95,12 +82,20 @@ const getUserReviews = (userId, res) => {
   .then((data) => {
     res.send(data)
   })
-  .catch((err) => { console.log(err) })
-}
+  .catch((err) => { console.log(err) });
+};
 
 const updateReview = (review, id, res) => {
-  res.sendStatus(405)
-}
+  db.query(`UPDATE reviews
+            SET rating = ${review.rating},
+            review = '${review.review}',
+            updatedat = DEFAULT
+            WHERE review_id = ${id};
+          `)
+  .then(console.log("Review successfully updated"))
+  .then(res.sendStatus(202))
+  .catch((err) => { console.log(err) });
+};
 
 
 module.exports = {

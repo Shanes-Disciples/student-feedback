@@ -1,34 +1,42 @@
 config:
   target: 'http://127.0.0.1:3002'
   phases:
-    - duration: 45
-      arrivalRate: 25
-      rampTo: 100
+    - duration: 5
+      arrivalRate: 20
+      # rampTo: 50
       name: "warming up"
-    - duration: 120
-      arrivalRate: 100
-      rampTo: 1000
-      name: "testing max load"
+    # - duration: 60
+    #   arrivalRate: 100
+    #   rampTo: 500
+    #   name: "testing max load"
   processor: './hellofunctions.js'
   defaults:
     headers:
       x-my-service-auth: '987401838271002188298567'
+
 scenarios:
   - name: "get one review"
     flow:
       - function: 'generateRandomData'
-      - get:
-          url: "/{{ id }}/reviews/{{ id }}"
-  # - name: "get all course reviews"
-  #   flow:
-  #     - function: 'generateRandomData'
-  #     - get:
-  #         url: "/{{ id }}/reviews/"
-  # - name: "get static page"
-  #   flow:
-  #     - function: 'generateRandomData'
-  #     - get:
-  #         url: "/courses/{{ id }}/"
-  #         gzip: true
-
+      - loop:
+        - get:
+            url: "/{{ id }}/reviews/{{ id }}"
+            # gzip: true
+        count: 2000
+  - name: "get all course reviews"
+    flow:
+      - function: 'generateRandomData'
+      - loop:
+        - get:
+            url: "/{{ id }}/reviews/"
+            # gzip: true
+        count: 1000
+  - name: "get static page"
+    flow:
+      - function: 'generateRandomData'
+      - loop:
+        - get:
+            url: "/courses/{{ id }}/"
+            # gzip: true
+        count: 2000
 
