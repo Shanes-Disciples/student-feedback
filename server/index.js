@@ -35,39 +35,36 @@ app.get('/:courseId/reviews', (req, res) => {
 });
 
 
-//Routes for REVIEWS ***********************************************
+//New Routes for Reviews && Users ********************************
 
-//app.get to get a specific review
+//Get a specific review
 app.get('/:courseId/reviews/:reviewId', (req, res) => {
   let reviewId = req.params.reviewId;
   getSingleReview(reviewId, res)
 });
 
-
-//make app.put to edit an existing review
+//Update a specific review
 app.put('/:courseId/reviews/:reviewId', (req, res) => {
   let review = req.body;
   let id = req.params.reviewId
-  console.log(review);
-  console.log(id);
   updateReview(review, id, res)
 });
 
 
-//make app.post to add a review
+//Create a newd review
 app.post('/:courseId/reviews/', (req, res) => {
   let courseId = req.params.courseId;
   const review = req.body;
   createReview(courseId, review, res)
 });
 
-// app.delete to delete a review
+//Delete a review
 app.delete('/:courseId/reviews/:reviewId', (req, res) => {
   let reviewId = req.params.reviewId;
   removeReview(reviewId, res)
 });
 
-
+//Get all of a user's reviews
 app.get('/users/:userId', (req, res) => {
   let userId = req.params.userId;
   getUserReviews(userId, res);

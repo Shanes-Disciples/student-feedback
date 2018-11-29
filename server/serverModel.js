@@ -70,6 +70,18 @@ const createReview = (courseId, review, res) => {
   .catch((err) => { console.log(err) });
 };
 
+const updateReview = (review, id, res) => {
+  db.query(`UPDATE reviews
+            SET rating = ${review.rating},
+            review = '${review.review}',
+            updatedat = DEFAULT
+            WHERE review_id = ${id};
+          `)
+  .then(console.log("Review successfully updated"))
+  .then(res.sendStatus(202))
+  .catch((err) => { console.log(err) });
+};
+
 const removeReview = (reviewId, res) => {
   db.query(`DELETE FROM reviews WHERE review_id = ${reviewId};`)
   .then(console.log("Review successfully deleted"))
@@ -84,19 +96,6 @@ const getUserReviews = (userId, res) => {
   })
   .catch((err) => { console.log(err) });
 };
-
-const updateReview = (review, id, res) => {
-  db.query(`UPDATE reviews
-            SET rating = ${review.rating},
-            review = '${review.review}',
-            updatedat = DEFAULT
-            WHERE review_id = ${id};
-          `)
-  .then(console.log("Review successfully updated"))
-  .then(res.sendStatus(202))
-  .catch((err) => { console.log(err) });
-};
-
 
 module.exports = {
   getReviewData,
